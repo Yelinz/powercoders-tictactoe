@@ -21,42 +21,52 @@ function allTheSame(arr) {
   return new Set(arr).size <= 1
 }
 
+function rowWinner(arr) {
+  const winnerRow = arr.find(row => {
+    return allTheSame(row) == true && row[0] != null
+  })
+  return winnerRow ? winnerRow[0] : false
+}
+
+function hasEmptyCell(arr) {
+  return !!arr.find(row => {
+    return row.includes(null)
+  })
+}
+
 function whoIsWinner(arr) {
+  if (rowWinner(arr)) {
+    return rowWinner(arr)
+  }
+  const colWinner = rowWinner(transpose(arr))
+  if (colWinner) {
+    return colWinner
+  }
+
   const tl = arr[0][0]
   const tr = arr[0][2]
   const m = arr[1][1]
   const bl = arr[2][0]
   const br = arr[2][2]
 
-  for (let i = 0; i <= 2; i++) {
-    if (allTheSame(arr[i]) == true && arr[i][0] != null) {
-      return arr[i][0]
-    }
-    /*    if (allTheSame([arr[0][i],arr[1][i],arr[2][i]]) == true && arr[0][i] != null) {
-      return arr[0][i]
-    }*/
-  }
-
-  let rotatedArr = rotateArray(arr)
-  for (let i = 0; i <= 2; i++) {
-    if (allTheSame(rotatedArr[i]) == true && rotatedArr[i][0] != null) {
-      return rotatedArr[i][0]
-    }
-  }
-
   if (allTheSame([tl, m, br]) == true || allTheSame([tr, m, bl]) == true) {
     return m
   }
+
+  if (!hasEmptyCell(arr)) {
+    return "full"
+  }
+
   return null
 }
 
-function rotateArray(arr) {
+function transpose(arr) {
   let returnArr = [[], [], []]
-  for (let i = 0; i <= arr.length - 1; i++) {
-    for (let j = 0; j <= arr[i].length - 1; j++) {
+  arr.forEach((row, i) => {
+    row.forEach((_, j) => {
       returnArr[i].push(arr[j][i])
-    }
-  }
+    })
+  })
   return returnArr
 }
 
@@ -67,5 +77,6 @@ module.exports = {
   removeDuplicates,
   allTheSame,
   whoIsWinner,
-  rotateArray
+  transpose,
+  hasEmptyCell
 }

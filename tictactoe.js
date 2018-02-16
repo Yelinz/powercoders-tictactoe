@@ -23,7 +23,7 @@ function allTheSame(arr) {
 
 function rowWinner(arr) {
   const winnerRow = arr.find(row => {
-    return allTheSame(row) == true && row[0] != null
+    return allTheSame(row) === true && row[0] != null
   })
   return winnerRow ? winnerRow[0] : false
 }
@@ -49,7 +49,7 @@ function whoIsWinner(arr) {
   const bl = arr[2][0]
   const br = arr[2][2]
 
-  if (allTheSame([tl, m, br]) == true || allTheSame([tr, m, bl]) == true) {
+  if (allTheSame([tl, m, br]) === true || allTheSame([tr, m, bl]) === true) {
     return m
   }
 

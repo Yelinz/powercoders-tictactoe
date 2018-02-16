@@ -4,6 +4,7 @@
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
+  <p id="status">It's X's Turn</p>
   <table id="field">
     <tr data-row="0">
       <td data-col="0" id=00></td>
@@ -21,7 +22,14 @@
       <td data-col="2" id=22></td>
     </tr>
   </table>
-  <p id="result"></p>
+  <div class="score-container">
+      <p id="score-x">0</p>
+      <p id="score-tied">0</p>
+      <p id="score-o">0</p>
+      <p>X</p>
+      <p>=</p>
+      <p>O</p>
+  </div>
   <button id="reset-btn">Reset Field</button>
 </body>
 </html>

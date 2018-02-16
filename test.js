@@ -9,6 +9,7 @@ var {
   transpose,
   hasEmptyCell
 } = require("./tictactoe")
+let { availableMoves, assignMoveScore, getBotMove, copy } = require("./minimax")
 
 test("shout turns any string into UPPERCASE", function(t) {
   t.equals(shout("hello"), "HELLO", "it should shout HELLO")
@@ -116,5 +117,82 @@ test("rotateArray rotates an given array", function(t) {
     [2, 2, 2],
     [2, 3, 3]
   ])
+  t.end()
+})
+
+test("availableMoves Checks for free spaces in a board", t => {
+  t.deepEquals(availableMoves([[1, 2, null], [3, null, null]]), [
+    "02",
+    "11",
+    "12"
+  ])
+  t.deepEquals(availableMoves([[1, 2, 3], [1, 2, 3]]), [])
+  t.end()
+})
+
+test("assignMoveScore Returns points beased on win or loss", t => {
+  t.equal(
+    assignMoveScore([["X", "X", "X"], [null, "O", "O"], [null, null, null]]),
+    -10
+  )
+  t.equal(
+    assignMoveScore([["O", "O", "O"], [null, "X", "X"], [null, null, null]]),
+    10
+  )
+  t.equal(
+    assignMoveScore([["X", "X", "X"], [null, "O", "O"], [null, null, null]]),
+    -10
+  )
+  t.equal(
+    assignMoveScore([["O", "O", "O"], [null, "X", "X"], [null, null, null]]),
+    10
+  )
+  t.equal(
+    assignMoveScore([["O", "X", "O"], ["O", "X", "X"], ["X", "O", null]]),
+    false
+  )
+  t.equal(
+    assignMoveScore([["O", "X", "O"], ["O", "X", "X"], ["X", "O", "X"]]),
+    0
+  )
+  t.end()
+})
+
+test("getBotMove Gives the Bots next move back", t => {
+  t.equal(
+    getBotMove([[null, "O", "O"], [null, "X", "X"], [null, null, null]], true),
+    "00"
+  )
+  t.equal(
+    getBotMove([["O", "O", "X"], ["X", "X", null], ["O", null, null]], false),
+    "12"
+  )
+  t.equal(
+    getBotMove([["X", "O", "X"], ["X", "O", null], [null, null, null]], true),
+    "21"
+  )
+  t.equal(
+    getBotMove([["X", null, null], ["X", null, null], ["O", null, null]], true),
+    "21"
+  )
+  t.end()
+})
+/*test("getBotMove Gives the Bots next move back", t => {
+  t.equal(
+    getBotMove(
+      [[null, null, null], [null, null, null], [null, null, null]],
+      false
+    ),
+    "00"
+  )
+  t.end()
+})*/
+
+test("copy", t => {
+  const board = [["O", "O", "X"], ["X", "X", null], ["O", null, null]]
+  const boardCopy = copy(board)
+  t.deepEqual(boardCopy, board)
+  boardCopy[0][1] = "A"
+  t.equal(board[0][1], "O")
   t.end()
 })

@@ -1,6 +1,8 @@
 const tictactoe = require("./tictactoe")
+const minimax = require("./minimax")
 let field = [[null, null, null], [null, null, null], [null, null, null]]
 let player = "X"
+let score = [0, 0, 0]
 setupField()
 
 function setupField() {
@@ -16,16 +18,16 @@ function setupField() {
       document
         .getElementById("reset-btn")
         .addEventListener("click", resetButton)
-      document.getElementById("reset-btn").style.visibility = "hidden"
+      document.getElementById("reset-btn").style.display = "none"
     })
   } else {
-    for (let row = 0; row <= 2; row++) {
-      for (let col = 0; col <= 2; col++) {
+    field.forEach((row, i) => {
+      row.forEach((_, j) => {
         document
-          .getElementById(`${row}${col}`)
+          .getElementById(`${i}${j}`)
           .addEventListener("click", clickOnGrid)
-      }
-    }
+      })
+    })
   }
 }
 
@@ -42,7 +44,7 @@ function clickOnGrid() {
 function resetButton() {
   resetField()
   setupField()
-  document.getElementById("reset-btn").style.visibility = "hidden"
+  document.getElementById("reset-btn").style.display = "none"
 }
 
 function fillField(row, col) {
@@ -60,41 +62,49 @@ function fillField(row, col) {
       player = "X"
       break
   }
+  document.getElementById("status").textContent = `It's ${player}'s Turn`
 }
 
 function checkFieldState(state) {
   if (state !== null) {
     if (state === "X") {
-      document.getElementById("result").textContent = "X is winner"
+      document.getElementById("status").textContent = "X won!"
+      score[0]++
     } else if (state === "O") {
-      document.getElementById("result").textContent = "O is winner"
+      document.getElementById("status").textContent = "O won!"
+      score[2]++
     } else if (state === "full") {
-      document.getElementById("result").textContent = "No one won"
+      document.getElementById("status").textContent = "Tied!"
+      score[1]++
     }
     field = [[null, null, null], [null, null, null], [null, null, null]]
     clearEventListeners()
-    document.getElementById("reset-btn").style.visibility = "visible"
+    document.getElementById("reset-btn").style.display = "block"
+    document.getElementById("score-x").textContent = score[0]
+    document.getElementById("score-tied").textContent = score[1]
+    document.getElementById("score-o").textContent = score[2]
   }
 }
 
 function clearEventListeners() {
   try {
-    for (let row = 0; row <= 2; row++) {
-      for (let col = 0; col <= 2; col++) {
+    field.forEach((row, i) => {
+      row.forEach((_, j) => {
         document
-          .getElementById(`${row}${col}`)
+          .getElementById(`${i}${j}`)
           .removeEventListener("click", clickOnGrid)
-      }
-    }
+      })
+    })
   } catch (ReferenceError) {}
+  setTimeout(resetButton, 5000)
 }
 
 function resetField() {
-  for (let row = 0; row <= 2; row++) {
-    for (let col = 0; col <= 2; col++) {
-      document.getElementById(`${row}${col}`).textContent = ""
-    }
-  }
-  document.getElementById("result").textContent = ""
+  field.forEach((row, i) => {
+    row.forEach((_, j) => {
+      document.getElementById(`${i}${j}`).textContent = ""
+    })
+  })
   player = "X"
+  document.getElementById("status").textContent = `It's ${player}'s Turn`
 }

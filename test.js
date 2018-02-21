@@ -140,14 +140,6 @@ test("assignMoveScore Returns points beased on win or loss", t => {
     10
   )
   t.equal(
-    assignMoveScore([["X", "X", "X"], [null, "O", "O"], [null, null, null]]),
-    -10
-  )
-  t.equal(
-    assignMoveScore([["O", "O", "O"], [null, "X", "X"], [null, null, null]]),
-    10
-  )
-  t.equal(
     assignMoveScore([["O", "X", "O"], ["O", "X", "X"], ["X", "O", null]]),
     false
   )
@@ -173,20 +165,18 @@ test("getBotMove Gives the Bots next move back", t => {
   )
   t.equal(
     getBotMove([["X", null, null], ["X", null, null], ["O", null, null]], true),
-    "21"
+    "01"
   )
   t.end()
 })
-/*test("getBotMove Gives the Bots next move back", t => {
+
+test("getBotMove Gives the Bots next move back", t => {
   t.equal(
-    getBotMove(
-      [[null, null, null], [null, null, null], [null, null, null]],
-      false
-    ),
+    getBotMove([[null, "O", "O"], [null, "X", "X"], [null, null, null]], true),
     "00"
   )
   t.end()
-})*/
+})
 
 test("copy", t => {
   const board = [["O", "O", "X"], ["X", "X", null], ["O", null, null]]

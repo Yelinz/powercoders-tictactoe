@@ -59,9 +59,9 @@ function log(board) {
 }
 
 function max(moveScores) {
-  let bestScoredMove = -100
+  let bestScoredMove = ["11", -100]
   Object.entries(moveScores).forEach(scoreSet => {
-    if (scoreSet[1] > bestScoredMove && scoreSet[1] !== false) {
+    if (scoreSet[1] > bestScoredMove[1] && scoreSet[1] !== false) {
       bestScoredMove = scoreSet
     }
   })
@@ -69,9 +69,9 @@ function max(moveScores) {
 }
 
 function min(moveScores) {
-  let worstScoredMove = 100
+  let worstScoredMove = ["11", 100]
   Object.entries(moveScores).forEach(scoreSet => {
-    if (scoreSet[1] < worstScoredMove && scoreSet[1] !== false) {
+    if (scoreSet[1] < worstScoredMove[1] && scoreSet[1] !== false) {
       worstScoredMove = scoreSet
     }
   })

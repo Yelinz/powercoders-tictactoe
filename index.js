@@ -3,6 +3,7 @@ const minimax = require("./minimax")
 let field = [[null, null, null], [null, null, null], [null, null, null]]
 let player = "X"
 let score = [0, 0, 0]
+let mode = "local"
 setupField()
 
 function setupField() {
@@ -19,6 +20,8 @@ function setupField() {
         .getElementById("reset-btn")
         .addEventListener("click", resetButton)
       document.getElementById("reset-btn").style.display = "none"
+      document.getElementById("play-local").addEventListener("click", vsLocal)
+      document.getElementById("play-bot").addEventListener("click", vsBot)
     })
   } else {
     field.forEach((row, i) => {
@@ -29,6 +32,17 @@ function setupField() {
       })
     })
   }
+}
+
+function vsLocal() {
+  document.getElementById("play-local").style.display = "none"
+  document.getElementById("play-bot").style.display = "none"
+}
+
+function vsBot() {
+  document.getElementById("play-local").style.display = "none"
+  document.getElementById("play-bot").style.display = "none"
+  mode = "bot"
 }
 
 function clickOnGrid() {
@@ -83,6 +97,7 @@ function checkFieldState(state) {
     document.getElementById("score-x").textContent = score[0]
     document.getElementById("score-tied").textContent = score[1]
     document.getElementById("score-o").textContent = score[2]
+    setTimeout(resetButton, 5000)
   }
 }
 
@@ -96,7 +111,6 @@ function clearEventListeners() {
       })
     })
   } catch (ReferenceError) {}
-  setTimeout(resetButton, 5000)
 }
 
 function resetField() {

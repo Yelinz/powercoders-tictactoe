@@ -2,7 +2,7 @@ body {
   height: 96%;
   width: 500px;
   margin: 0 auto;
-  background-image: radial-gradient(#3F51B5, #2196F3, #4CAF50, #FFEB3B, #F10);
+  background-color: #6A1B4B;
 }
 table {
   width: 100%;
@@ -39,6 +39,7 @@ p {
   height: 50px;
   width: 200px;
   font-size: x-large;
+  margin-bottom: 20px;
 }
 
 #status {
@@ -51,4 +52,10 @@ p {
   margin: 20px 0 20px 0;
   border: 1px solid;
   background-color: #BDBDBD;
+}
+
+.content {
+  border: 1px solid;
+  background-color: #455A64;
+  margin-top: 20px;
 }

@@ -1,8 +1,7 @@
 body {
-  height: 96%;
-  width: 500px;
-  margin: 0 auto;
-  background-color: #6A1B4B;
+  display: flex;
+  justify-content: center;
+  animation: breathing 60s infinite;
 }
 table {
   width: 100%;
@@ -32,6 +31,12 @@ p {
   font-family: sans-serif;
 }
 
+div button {
+  width: 100px;
+  height: 50px;
+  border-radius: 5px;
+}
+
 #reset-btn {
   margin-left: auto;
   margin-right: auto;
@@ -40,10 +45,50 @@ p {
   width: 200px;
   font-size: x-large;
   margin-bottom: 20px;
+  background-color: hotpink;
+  border: 1px solid;
 }
 
 #status {
   margin-top: 5%;
+}
+
+#difficulty {
+  display: none;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+}
+
+#hard {
+  animation: glowing 1s infinite;
+  border-color: transparent;
+}
+
+#medium {
+  border-color: #FF5722;
+  background-color: #FF5722;
+}
+
+#easy {
+  border-color: #64DD17;
+  background-color: #64DD17;
+}
+
+#play-local {
+  background-color: black;
+  color: white;
+  border: unset;
+}
+
+#play-bot {
+  background-color: white;
+  border: unset;
+}
+
+.play {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
 }
 
 .score-container {
@@ -51,15 +96,44 @@ p {
   grid-template: 1fr 1fr / 1fr 1fr 1fr;
   margin: 20px 0 20px 0;
   border: 1px solid;
-  background-color: #BDBDBD;
+  border-radius: 10px;
+  background-color: #F5F5F5;
 }
 
 .content {
-  border: 1px solid;
-  background-color: #455A64;
+  width: 500px;
   margin-top: 20px;
 }
 
-#field {
-  display: none;
+@keyframes breathing {
+  0% {
+    background-color: #F44336;
+  }
+  25%{
+    background-color: #FF9800;
+  }
+  50%{
+    background-color: #4CAF50;
+  }
+  75%{
+    background-color: #3F51B5;
+  }
+  100% {
+    background-color: #F44336;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background-color: #B20000;
+    box-shadow: 0 0 3px #B20000;
+  }
+  50% {
+    background-color: #FF0000;
+    box-shadow: 0 0 40px #FF0000;
+  }
+  100% {
+    background-color: #B20000;
+    box-shadow: 0 0 3px #B20000;
+  }
 }

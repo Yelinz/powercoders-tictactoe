@@ -5,15 +5,15 @@
 </head>
 <body>
   <div class="content">
-  <p id="status">It's X's Turn</p>
+  <p id="status">Choose Opponent</p>
   <div class="play" id="play">
-    <button id="play-local">vs. Local</button>
-    <button id="play-bot">vs. Bot</button>
+    <button id="play-local" data-play="local">vs. Local</button>
+    <button id="play-bot" data-play="bot">vs. Bot</button>
   </div>
   <div id=difficulty>
-    <button id="easy" data-diff=true></button>
-    <button id="medium" data-diff=false></button>
-    <button id="hard" data-diff=null></button>
+    <button id="easy" data-diff=true>Easy</button>
+    <button id="medium" data-diff=false>Medium</button>
+    <button id="hard" data-diff=null>Hard</button>
   </div>
   <table id="field">
     <tr data-row="0">

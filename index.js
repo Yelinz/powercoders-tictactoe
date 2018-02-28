@@ -5,7 +5,7 @@ let player = "X"
 let score = [0, 0, 0]
 let mode = "local"
 let timeout
-let difficulty
+let difficulty = null
 setupField()
 
 function setupField() {
@@ -22,8 +22,8 @@ function setupField() {
         .getElementById("reset-btn")
         .addEventListener("click", resetButton)
       document.getElementById("reset-btn").style.display = "none"
-      document.getElementById("play-local").addEventListener("click", vsLocal)
-      document.getElementById("play-bot").addEventListener("click", vsBot)
+      document.getElementById("play-local").addEventListener("click", setMode)
+      document.getElementById("play-bot").addEventListener("click", setMode)
     })
   } else {
     field.forEach((row, i) => {
@@ -36,14 +36,13 @@ function setupField() {
   }
 }
 
-function vsLocal() {
+function setMode() {
   hideOptions()
-}
-
-function vsBot() {
-  hideOptions()
-  difficultyOptions()
-  mode = "bot"
+  if (this.dataset.play === "bot") {
+    document.getElementById("status").textContent = "Choose Bot Difficulty"
+    difficultyOptions()
+    mode = "bot"
+  }
 }
 
 function clickOnGrid() {
@@ -137,25 +136,26 @@ function hideOptions() {
 }
 
 function makeBotMove() {
-  const move = minimax.getBotMove(field, difficulty)
+  const move = minimax.getBotMove(field, difficulty).toString()
   const row = move.split("")[0]
   const col = move.split("")[1]
   if (field[row][col] === null) {
     field[row][col] = "O"
+    document.getElementById(move).textContent = "O"
+    document.getElementById(move).removeEventListener("click", clickOnGrid)
+    checkFieldState(tictactoe.whoIsWinner(field))
   }
-  document.getElementById(move).textContent = "O"
-  document.getElementById(move).removeEventListener("click", clickOnGrid)
-  checkFieldState(tictactoe.whoIsWinner(field))
 }
 
 function difficultyOptions() {
   document.getElementById("easy").addEventListener("click", assignDifficulty)
   document.getElementById("medium").addEventListener("click", assignDifficulty)
   document.getElementById("hard").addEventListener("click", assignDifficulty)
-  document.getElementById("difficulty").style.display = "block"
+  document.getElementById("difficulty").style.display = "flex"
 }
 
 function assignDifficulty() {
   document.getElementById("difficulty").style.display = "none"
   difficulty = this.dataset.diff
+  document.getElementById("status").textContent = `It's ${player}'s Turn`
 }

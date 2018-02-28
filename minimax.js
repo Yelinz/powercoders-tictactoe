@@ -1,12 +1,14 @@
 const tictactoe = require("./tictactoe")
+let cache = {}
 
 function getBotMove(board, difficulty) {
   const start = Date.now()
   const result = _getBotMove(board, true, difficulty)
-  //console.log(Date.now() - start)
+  console.log("Time:", Date.now() - start, "ms")
   return result
 }
 
+/*
 function firstMove(board) {
   let orig
   if (board[0][0] !== null || board[1][0] !== null || board[1][1] !== null) {
@@ -25,32 +27,41 @@ function firstMove(board) {
 
   return move
 }
+*/
 
 /**
  * Returns the next move of the Bot.
  */
-function _getBotMove(board, maximize, recursion = 0, diff) {
+function _getBotMove(board, maximize, diff, recursion = 0) {
+  const player = maximize ? "O" : "X"
   let moveScores = {}
 
+  if (Object.keys(cache).indexOf(board.toString() + player) >= 0) {
+    if (recursion === 0) {
+      return cache[board.toString() + player][1]
+    }
+    return cache[board.toString() + player][0]
+  }
+
   for (let move of availableMoves(board)) {
-    const player = maximize ? "O" : "X"
+    const score = moveScores[move]
     let newBoard = copy(board)
     newBoard[move.split("")[0]][move.split("")[1]] = player
 
     if (assignMoveScore(newBoard) !== false) {
       moveScores[move] = assignMoveScore(newBoard)
+      cache[board.toString() + player] = [moveScores[move], move]
     } else {
-      moveScores[move] = _getBotMove(newBoard, !maximize, recursion + 1, diff)
+      moveScores[move] = _getBotMove(newBoard, !maximize, diff, recursion + 1)
     }
   }
 
   let compare = maximize ? Math.max : Math.min
 
-  log(board, recursion, moveScores)
+  //log(board, recursion, moveScores)
 
   if (recursion === 0) {
-    maximize = difficulty(diff, maximize)
-    return minmax(moveScores, maximize)
+    return minmax(moveScores, difficulty(diff, maximize))
   }
 
   return compare(...Object.values(moveScores))
@@ -90,7 +101,6 @@ function assignMoveScore(board) {
 }
 
 function copy(board) {
-  //return board.map(row => [...row])
   return board.map(row => row.slice())
 }
 
@@ -137,10 +147,12 @@ function transpond(board, direction) {
 }
 
 function difficulty(option, maximize) {
-  if (option === true) {
+  chance = Math.floor(Math.random() * 10)
+  if (option === "true") {
     return !maximize
-  } else if (option === false) {
-    if (Math.floor(Math.random * 10) + 1 < 5) {
+  } else if (option === "false") {
+    console.log(chance)
+    if (chance > 6) {
       return !maximize
     }
   }

@@ -19,6 +19,7 @@ function removeDuplicates(arr) {
 
 function allTheSame(arr) {
   return new Set(arr).size <= 1
+  //return !!arr.reduce((a, b) => (a === b ? a : NaN))
 }
 
 function rowWinner(arr) {
@@ -43,13 +44,11 @@ function whoIsWinner(arr) {
     return colWinner
   }
 
-  const tl = arr[0][0]
-  const tr = arr[0][2]
   const m = arr[1][1]
-  const bl = arr[2][0]
-  const br = arr[2][2]
-
-  if (allTheSame([tl, m, br]) === true || allTheSame([tr, m, bl]) === true) {
+  if (
+    allTheSame([arr[0][0], m, arr[2][2]]) === true ||
+    allTheSame([arr[0][2], m, arr[2][0]]) === true
+  ) {
     return m
   }
 

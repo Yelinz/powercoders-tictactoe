@@ -59,3 +59,7 @@ p {
   background-color: #455A64;
   margin-top: 20px;
 }
+
+#field {
+  display: none;
+}

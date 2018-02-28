@@ -4,6 +4,8 @@ let field = [[null, null, null], [null, null, null], [null, null, null]]
 let player = "X"
 let score = [0, 0, 0]
 let mode = "local"
+let timeout
+let difficulty
 setupField()
 
 function setupField() {
@@ -35,27 +37,31 @@ function setupField() {
 }
 
 function vsLocal() {
-  document.getElementById("play-local").style.display = "none"
-  document.getElementById("play-bot").style.display = "none"
+  hideOptions()
 }
 
 function vsBot() {
-  document.getElementById("play-local").style.display = "none"
-  document.getElementById("play-bot").style.display = "none"
+  hideOptions()
+  difficultyOptions()
   mode = "bot"
 }
 
 function clickOnGrid() {
+  hideOptions()
   const row = this.parentElement.dataset.row
   const col = this.dataset.col
   fillField(row, col)
-  checkFieldState(tictactoe.whoIsWinner(field))
   document
     .getElementById(`${row}${col}`)
     .removeEventListener("click", clickOnGrid)
+  checkFieldState(tictactoe.whoIsWinner(field))
+  if (mode === "bot" && minimax.availableMoves(field).length !== 9) {
+    makeBotMove()
+  }
 }
 
 function resetButton() {
+  window.clearTimeout(timeout)
   resetField()
   setupField()
   document.getElementById("reset-btn").style.display = "none"
@@ -65,16 +71,19 @@ function fillField(row, col) {
   if (field[row][col] === null) {
     field[row][col] = player
   }
-
-  switch (player) {
-    case "X":
-      document.getElementById(row + col).textContent = "X"
-      player = "O"
-      break
-    case "O":
-      document.getElementById(row + col).textContent = "O"
-      player = "X"
-      break
+  if (mode == "local") {
+    switch (player) {
+      case "X":
+        document.getElementById(row + col).textContent = "X"
+        player = "O"
+        break
+      case "O":
+        document.getElementById(row + col).textContent = "O"
+        player = "X"
+        break
+    }
+  } else if (mode == "bot") {
+    document.getElementById(row + col).textContent = "X"
   }
   document.getElementById("status").textContent = `It's ${player}'s Turn`
 }
@@ -97,7 +106,7 @@ function checkFieldState(state) {
     document.getElementById("score-x").textContent = score[0]
     document.getElementById("score-tied").textContent = score[1]
     document.getElementById("score-o").textContent = score[2]
-    setTimeout(resetButton, 5000)
+    timeout = window.setTimeout(resetButton, 5000)
   }
 }
 
@@ -121,4 +130,32 @@ function resetField() {
   })
   player = "X"
   document.getElementById("status").textContent = `It's ${player}'s Turn`
+}
+
+function hideOptions() {
+  document.getElementById("play").style.display = "none"
+}
+
+function makeBotMove() {
+  const move = minimax.getBotMove(field, difficulty)
+  const row = move.split("")[0]
+  const col = move.split("")[1]
+  if (field[row][col] === null) {
+    field[row][col] = "O"
+  }
+  document.getElementById(move).textContent = "O"
+  document.getElementById(move).removeEventListener("click", clickOnGrid)
+  checkFieldState(tictactoe.whoIsWinner(field))
+}
+
+function difficultyOptions() {
+  document.getElementById("easy").addEventListener("click", assignDifficulty)
+  document.getElementById("medium").addEventListener("click", assignDifficulty)
+  document.getElementById("hard").addEventListener("click", assignDifficulty)
+  document.getElementById("difficulty").style.display = "block"
+}
+
+function assignDifficulty() {
+  document.getElementById("difficulty").style.display = "none"
+  difficulty = this.dataset.diff
 }

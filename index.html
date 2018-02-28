@@ -6,8 +6,15 @@
 <body>
   <div class="content">
   <p id="status">It's X's Turn</p>
-  <button id="play-local">vs. Local</button>
-  <button id="play-bot">vs. Bot</button>
+  <div class="play" id="play">
+    <button id="play-local">vs. Local</button>
+    <button id="play-bot">vs. Bot</button>
+  </div>
+  <div id=difficulty>
+    <button id="easy" data-diff=true></button>
+    <button id="medium" data-diff=false></button>
+    <button id="hard" data-diff=null></button>
+  </div>
   <table id="field">
     <tr data-row="0">
       <td data-col="0" id=00></td>

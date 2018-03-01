@@ -14,8 +14,7 @@ let {
   assignMoveScore,
   getBotMove,
   copy,
-  minmax,
-  transpond
+  minmax
 } = require("./minimax")
 
 test("shout turns any string into UPPERCASE", function(t) {
@@ -192,19 +191,5 @@ test("copy", t => {
   t.deepEqual(boardCopy, board)
   boardCopy[0][1] = "A"
   t.equal(board[0][1], "O")
-  t.end()
-})
-
-test("transpond transponds in given direction", t => {
-  t.deepEquals(transpond([[1, 1, 1], [2, 2, 2], [3, 3, 3]], true), [
-    [3, 3, 3],
-    [2, 2, 2],
-    [1, 1, 1]
-  ])
-  t.deepEquals(transpond([[1, 2, 3], [1, 2, 3], [1, 2, 3]], false), [
-    [3, 2, 1],
-    [3, 2, 1],
-    [3, 2, 1]
-  ])
   t.end()
 })

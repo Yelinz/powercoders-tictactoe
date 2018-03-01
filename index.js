@@ -136,7 +136,7 @@ function hideOptions() {
 }
 
 function makeBotMove() {
-  const move = minimax.getBotMove(field, difficulty).toString()
+  const move = minimax.getBotMove(field, difficulty)
   const row = move.split("")[0]
   const col = move.split("")[1]
   if (field[row][col] === null) {

@@ -1,33 +1,16 @@
 const tictactoe = require("./tictactoe")
 let cache = {}
+let work
 
 function getBotMove(board, difficulty) {
   const start = Date.now()
+  work = 0
   const result = _getBotMove(board, true, difficulty)
+  console.log("cache size", Object.keys(cache).length)
+  console.log("work", work)
   console.log("Time:", Date.now() - start, "ms")
   return result
 }
-
-/*
-function firstMove(board) {
-  let orig
-  if (board[0][0] !== null || board[1][0] !== null || board[1][1] !== null) {
-  } else if (board[0][1] !== null) {
-    board = tictactoe.transpose(board)
-  } else if (board[1][2] !== null || board[0][2] !== null) {
-    board = transpond(board, false)
-  } else if (board[2][0] !== null) {
-    board = transpond(board, true)
-  } else if (board[2][1] !== null) {
-    board = transpond(transpond(board, true), false)
-  } else if (board[2][2] !== null) {
-    board = transpond(tictactoe.transpose(board), true)
-  }
-  const move = _getBotMove(board, true)
-
-  return move
-}
-*/
 
 /**
  * Returns the next move of the Bot.
@@ -36,12 +19,11 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
   const player = maximize ? "O" : "X"
   let moveScores = {}
 
-  if (Object.keys(cache).indexOf(board.toString() + player) >= 0) {
-    if (recursion === 0) {
-      return cache[board.toString() + player][1]
-    }
-    return cache[board.toString() + player][0]
+  if (cache[board.toString() + player] && recursion !== 0) {
+    return cache[board.toString() + player]
   }
+
+  work++
 
   for (let move of availableMoves(board)) {
     const score = moveScores[move]
@@ -50,7 +32,6 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
 
     if (assignMoveScore(newBoard) !== false) {
       moveScores[move] = assignMoveScore(newBoard)
-      cache[board.toString() + player] = [moveScores[move], move]
     } else {
       moveScores[move] = _getBotMove(newBoard, !maximize, diff, recursion + 1)
     }
@@ -64,7 +45,9 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
     return minmax(moveScores, difficulty(diff, maximize))
   }
 
-  return compare(...Object.values(moveScores))
+  const result = compare(...Object.values(moveScores))
+  cache[board.toString() + player] = result
+  return result
 }
 
 /*
@@ -123,9 +106,10 @@ function minmax(moveScores, maximize) {
   })
   return bestScoredMove[0]
 }
+
 /*
  * Rotates given 2d array, true = horizontal; false = vertical
- */
+ *
 function transpond(board, direction) {
   let returnBoard = []
   if (direction === true) {
@@ -145,6 +129,7 @@ function transpond(board, direction) {
   }
   return returnBoard
 }
+*/
 
 function difficulty(option, maximize) {
   chance = Math.floor(Math.random() * 10)
@@ -159,11 +144,14 @@ function difficulty(option, maximize) {
   return maximize
 }
 
+function memoization(fn) {
+  let Cache = {}
+}
+
 module.exports = {
   getBotMove,
   availableMoves,
   assignMoveScore,
   copy,
-  minmax,
-  transpond
+  minmax
 }

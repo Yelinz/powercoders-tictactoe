@@ -19,7 +19,6 @@ function removeDuplicates(arr) {
 
 function allTheSame(arr) {
   return new Set(arr).size <= 1
-  //return !!arr.reduce((a, b) => (a === b ? a : NaN))
 }
 
 function rowWinner(arr) {

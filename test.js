@@ -176,6 +176,13 @@ test.only("getBotMove Gives the Bots next move back", t => {
     ),
     "11"
   )
+  t.equal(
+    getBotMove(
+      [[null, null, null], [null, null, null], [null, null, null]],
+      null
+    ),
+    "10"
+  )
   t.end()
 })
 

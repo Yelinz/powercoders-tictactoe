@@ -6,9 +6,11 @@ function getBotMove(board, difficulty) {
   const start = Date.now()
   work = 0
   const result = _getBotMove(board, true, difficulty)
+  /*
   console.log("cache size", Object.keys(cache).length)
   console.log("work", work)
   console.log("Time:", Date.now() - start, "ms")
+  */
   return result
 }
 
@@ -42,7 +44,10 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
   //log(board, recursion, moveScores)
 
   if (recursion === 0) {
-    return minmax(moveScores, difficulty(diff, maximize))
+    return minmax(
+      moveScores,
+      availableMoves(board).length >= 6 ? difficulty(diff, maximize) : maximize
+    )
   }
 
   const result = compare(...Object.values(moveScores))
@@ -50,9 +55,9 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
   return result
 }
 
-/*
-  Returns empty spots of the board.
-  */
+/**
+ * Returns empty spots of the board.
+ */
 function availableMoves(board) {
   let moves = []
   board.forEach((row, i) => {
@@ -107,30 +112,6 @@ function minmax(moveScores, maximize) {
   return bestScoredMove[0]
 }
 
-/*
- * Rotates given 2d array, true = horizontal; false = vertical
- *
-function transpond(board, direction) {
-  let returnBoard = []
-  if (direction === true) {
-    board.forEach((row, index) => {
-      let newRowIndex = Math.abs(2 - index)
-      returnBoard.push(board[newRowIndex])
-    })
-  } else if (direction === false) {
-    board.forEach((row, i) => {
-      let tempCol = []
-      row.forEach((_, j) => {
-        let newColIndex = Math.abs(2 - j)
-        tempCol.push(board[i][newColIndex])
-      })
-      returnBoard.push(tempCol)
-    })
-  }
-  return returnBoard
-}
-*/
-
 function difficulty(option, maximize) {
   chance = Math.floor(Math.random() * 10)
   if (option === "true") {
@@ -144,8 +125,15 @@ function difficulty(option, maximize) {
   return maximize
 }
 
-function memoization(fn) {
+let memoize = fn => {
   let Cache = {}
+  return args => {
+    let stringifiedArgs = JSON.stringify(args)
+    let result = (Cache[stringifiedArgs] = Cache[stringifiedArgs] || fn(args))
+    console.log("cache", Cache)
+    console.log("res", result)
+    return result
+  }
 }
 
 module.exports = {
@@ -153,5 +141,6 @@ module.exports = {
   availableMoves,
   assignMoveScore,
   copy,
+  memoize,
   minmax
 }

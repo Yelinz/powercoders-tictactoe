@@ -38,19 +38,17 @@ div button {
 }
 
 #reset-btn {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+  margin: 10px auto;
+  display: none;
   height: 50px;
   width: 200px;
   font-size: x-large;
-  margin-bottom: 20px;
-  background-color: hotpink;
+  background-color: #ffffff;
   border: 1px solid;
 }
 
 #status {
-  margin-top: 5%;
+  margin-top: 15px;
 }
 
 #difficulty {
@@ -74,15 +72,32 @@ div button {
   background-color: #64DD17;
 }
 
-#play-local {
-  background-color: black;
-  color: white;
+#play button {
   border: unset;
 }
 
+#play-local {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#play-online {
+  background-color: #9E9E9E;
+  color: #ffffff;
+}
+
 #play-bot {
-  background-color: white;
-  border: unset;
+  background-color: #ffffff;
+}
+
+#disconnect-btn {
+  display: none;
+  margin: 0 auto;
+  height: 50px;
+  width: 200px;
+  font-size: x-large;
+  background-color: #F44336;
+  border: 1px solid;
 }
 
 .play {
@@ -94,7 +109,7 @@ div button {
 .score-container {
   display: grid;
   grid-template: 1fr 1fr / 1fr 1fr 1fr;
-  margin: 20px 0 20px 0;
+  margin: 20px 0 10px;
   border: 1px solid;
   border-radius: 10px;
   background-color: #F5F5F5;
@@ -102,7 +117,6 @@ div button {
 
 .content {
   width: 500px;
-  margin-top: 20px;
 }
 
 @keyframes breathing {

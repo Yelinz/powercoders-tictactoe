@@ -1,46 +1,48 @@
 <html>
-<head>
-  <script src="bundle.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-  <div class="content">
-  <p id="status">Choose Opponent</p>
-  <div class="play" id="play">
-    <button id="play-local" data-play="local">vs. Local</button>
-    <button id="play-bot" data-play="bot">vs. Bot</button>
-  </div>
-  <div id=difficulty>
-    <button id="easy" data-diff=true>Easy</button>
-    <button id="medium" data-diff=false>Medium</button>
-    <button id="hard" data-diff=null>Hard</button>
-  </div>
-  <table id="field">
-    <tr data-row="0">
-      <td data-col="0" id=00></td>
-      <td data-col="1" id=01></td>
-      <td data-col="2" id=02></td>
-    </tr>
-    <tr data-row="1">
-      <td data-col="0" id=10></td>
-      <td data-col="1" id=11></td>
-      <td data-col="2" id=12></td>
-    </tr>
-    <tr data-row="2">
-      <td data-col="0" id=20></td>
-      <td data-col="1" id=21></td>
-      <td data-col="2" id=22></td>
-    </tr>
-  </table>
-  <div class="score-container">
-      <p id="score-x">0</p>
-      <p id="score-tied">0</p>
-      <p id="score-o">0</p>
-      <p>X</p>
-      <p>=</p>
-      <p>O</p>
-  </div>
-  <button id="reset-btn">Reset Field</button>
-  </div>
-</body>
+  <head>
+    <script src="bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="content">
+      <p id="status">Choose Opponent</p>
+      <div class="play" id="play">
+        <button id="play-local" data-play="local">vs. Local</button>
+        <button id="play-online" data-play="online">vs. Online</button>
+        <button id="play-bot" data-play="bot">vs. Bot</button>
+      </div>
+      <div id=difficulty>
+        <button id="easy" data-diff=true>Easy</button>
+        <button id="medium" data-diff=false>Medium</button>
+        <button id="hard" data-diff=null>Hard</button>
+      </div>
+      <table id="field">
+        <tr data-row="0">
+          <td data-col="0" id=00></td>
+          <td data-col="1" id=01></td>
+          <td data-col="2" id=02></td>
+        </tr>
+        <tr data-row="1">
+          <td data-col="0" id=10></td>
+          <td data-col="1" id=11></td>
+          <td data-col="2" id=12></td>
+        </tr>
+        <tr data-row="2">
+          <td data-col="0" id=20></td>
+          <td data-col="1" id=21></td>
+          <td data-col="2" id=22></td>
+        </tr>
+      </table>
+      <div class="score-container">
+          <p id="score-x">0</p>
+          <p id="score-tied">0</p>
+          <p id="score-o">0</p>
+          <p>X</p>
+          <p>=</p>
+          <p>O</p>
+      </div>
+      <button id="disconnect-btn">Disconnect</button>
+      <button id="reset-btn">Reset Field</button>
+    </div>
+  </body>
 </html>

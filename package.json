@@ -16,6 +16,9 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "jquery": "^3.2.0"
+    "bufferutil": "^3.0.3",
+    "utf-8-validate": "^4.0.0",
+    "websocket": "^1.0.25",
+    "ws": "^4.1.0"
   }
 }

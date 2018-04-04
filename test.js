@@ -14,6 +14,7 @@ let {
   assignMoveScore,
   getBotMove,
   copy,
+  memoize,
   minmax
 } = require("./minimax")
 
@@ -176,13 +177,11 @@ test.only("getBotMove Gives the Bots next move back", t => {
     ),
     "11"
   )
-  t.equal(
-    getBotMove(
-      [[null, null, null], [null, null, null], [null, null, null]],
-      null
-    ),
-    "10"
-  )
+  /*
+  let memoizedBot = memoize(getBotMove)
+  memoizedBot([[null, null, null], [null, null, null], ["X", null, null]], null)
+  memoizedBot([["X", null, null], ["O", null, null], ["X", null, null]], null)
+  */
   t.end()
 })
 

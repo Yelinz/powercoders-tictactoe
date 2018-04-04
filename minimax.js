@@ -6,11 +6,9 @@ function getBotMove(board, difficulty) {
   const start = Date.now()
   work = 0
   const result = _getBotMove(board, true, difficulty)
-  /*
   console.log("cache size", Object.keys(cache).length)
   console.log("work", work)
   console.log("Time:", Date.now() - start, "ms")
-  */
   return result
 }
 
@@ -19,19 +17,18 @@ function getBotMove(board, difficulty) {
  */
 function _getBotMove(board, maximize, diff, recursion = 0) {
   const player = maximize ? "O" : "X"
+  const key = board.toString() + player
   let moveScores = {}
 
-  if (cache[board.toString() + player] && recursion !== 0) {
-    return cache[board.toString() + player]
+  if (cache[key] && recursion !== 0) {
+    return cache[key]
   }
 
   work++
 
   for (let move of availableMoves(board)) {
-    const score = moveScores[move]
     let newBoard = copy(board)
-    newBoard[move.split("")[0]][move.split("")[1]] = player
-
+    ;(newBoard = tictactoe.fillMove(newBoard, move, player)), "test"
     if (assignMoveScore(newBoard) !== false) {
       moveScores[move] = assignMoveScore(newBoard)
     } else {
@@ -51,7 +48,7 @@ function _getBotMove(board, maximize, diff, recursion = 0) {
   }
 
   const result = compare(...Object.values(moveScores))
-  cache[board.toString() + player] = result
+  cache[key] = result
   return result
 }
 
@@ -125,14 +122,12 @@ function difficulty(option, maximize) {
   return maximize
 }
 
-let memoize = fn => {
-  let Cache = {}
-  return args => {
-    let stringifiedArgs = JSON.stringify(args)
-    let result = (Cache[stringifiedArgs] = Cache[stringifiedArgs] || fn(args))
-    console.log("cache", Cache)
-    console.log("res", result)
-    return result
+let memoize = func => {
+  const Cache = {}
+  return (...args) => {
+    const key = JSON.stringify(args)
+    //console.log("cache", Cache)
+    return key in Cache ? Cache[key] : (Cache[key] = func(...args))
   }
 }
 

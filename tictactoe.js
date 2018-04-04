@@ -68,6 +68,11 @@ function transpose(arr) {
   return returnArr
 }
 
+function fillMove(arr, move, player) {
+  arr[move.split("")[0]][move.split("")[1]] = player
+  return arr
+}
+
 module.exports = {
   shout,
   sayHello,
@@ -76,5 +81,6 @@ module.exports = {
   allTheSame,
   whoIsWinner,
   transpose,
-  hasEmptyCell
+  hasEmptyCell,
+  fillMove
 }
